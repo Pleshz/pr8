@@ -4,8 +4,12 @@
 	
 	$login = $_POST['login'];
 	$password = $_POST['password'];
+
+	$CheckPassword = preg_match('/(?=.*[0-9])(?=.*[!@#$%^&?*\-_=])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&?*\-_=]{8,}/', $password);
+
+	if($CheckPassword == false)
+		exit;
 	
-	// ищем пользователя
 	$query_user = $mysqli->query("SELECT * FROM `users` WHERE `login`='".$login."'");
 	$id = -1;
 	
@@ -18,7 +22,7 @@
 		$user_new = $query_user->fetch_row();
 		$id = $user_new[0];
 			
-		if($id != -1) $_SESSION['user'] = $id; // запоминаем пользователя
+		if($id != -1) $_SESSION['user'] = $id;
 		echo $id;
 	}
 ?>
